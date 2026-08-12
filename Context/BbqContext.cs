@@ -1,14 +1,24 @@
+using FMAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FMAPI.Context;
 
-public class RestarauntContext : DbContext
+
+public class BbqContext : DbContext
 {
-    public RestarauntContext(DbContextOptions<RestarauntContext> options) : base(options)
+    public BbqContext(DbContextOptions<BbqContext> options) : base(options)
     {
-        
     }
-    
-    public DbSet<RestarauntModel> restaraunt { get; set; }
+
+    public DbSet<BbqModel> bbq { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<BbqModel>()
+            .Property(x => x.Location)
+            .HasColumnType("geography(Point,4326)");
+    }
 }
 
