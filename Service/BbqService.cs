@@ -26,7 +26,7 @@ public class BbqService
             return await _context.bbq
                 .AsNoTracking()
                 .OrderBy(x => x.Id)
-                .Skip(page * pageSize)
+                .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
         }
@@ -71,5 +71,10 @@ public class BbqService
             _logger.LogError(e, "Error searching restaurants by name");
             throw;
         }
+    }
+    
+    public async Task<int> GetBbqCount()
+    {
+        return await _context.bbq.CountAsync();
     }
 }

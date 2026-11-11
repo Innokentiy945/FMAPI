@@ -37,4 +37,11 @@ public class ControllerBbq : ControllerBase
     {
         return await _bbqService.SearchBbqByName(query);
     }
+    
+    [HttpGet]
+    [Route("/countBbq")]
+    public async Task<int> GetBbqCount()
+    {
+        return await _bbqService.GetBbqCount();
+    }
 }
