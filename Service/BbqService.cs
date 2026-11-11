@@ -19,8 +19,12 @@ public class BbqService
     {
         try
         {
-            _logger.LogInformation("Getting BBQ list. Page: {Page}, PageSize: {PageSize}", page, pageSize);
+            _logger.LogInformation(
+                "Getting restaurants list. Page: {Page}, PageSize: {PageSize}",
+                page, pageSize);
+
             return await _context.bbq
+                .AsNoTracking()
                 .OrderBy(x => x.Id)
                 .Skip(page * pageSize)
                 .Take(pageSize)
@@ -28,18 +32,20 @@ public class BbqService
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error getting BBQ list.");
+            _logger.LogError(e, "Error getting restaurants list.");
             throw;
         }
     }
-    
+
     public async Task<List<BbqModel>> GetMapMarkers()
     {
         try
         {
-            _logger.LogInformation("Getting map markers");
+            _logger.LogInformation("Getting restaurant map markers");
+
             return await _context.bbq
                 .AsNoTracking()
+                .Where(x => x.Latitude != null && x.Longitude != null)
                 .ToListAsync();
         }
         catch (Exception e)
@@ -53,18 +59,16 @@ public class BbqService
     {
         try
         {
-            _logger.LogInformation("Searching bbq by name");
-            var result = await _context.bbq.FromSqlInterpolated($@"
-                SELECT *
-                FROM public.restaurants
-                WHERE tags->>'name' ILIKE '%' || {query} || '%'
-            ").ToListAsync();
-            
-            return result;
+            _logger.LogInformation("Searching restaurants by name");
+
+            return await _context.bbq
+                .AsNoTracking()
+                .Where(x => x.Name != null && EF.Functions.ILike(x.Name, $"%{query}%"))
+                .ToListAsync();
         }
         catch (Exception e)
         {
-            _logger.LogError(e, e.Message);
+            _logger.LogError(e, "Error searching restaurants by name");
             throw;
         }
     }

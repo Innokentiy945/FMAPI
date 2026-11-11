@@ -1,6 +1,3 @@
-
-using System.Text.Json.Serialization;
-
 namespace FMAPI.Models;
 
 using NetTopologySuite.Geometries;
@@ -10,24 +7,59 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class BbqModel
 {
     [Column("id")]
-    public long Id { get; set; }
+    public Guid Id { get; set; }
 
-    [Column("amenity")]
-    public string Amenity { get; set; } = string.Empty;
+    [Column("name")]
+    public string? Name { get; set; }
+
+    [Column("basic_category")]
+    public string? BasicCategory { get; set; }
 
     [Column("cuisine")]
-    public string Cuisine { get; set; } = string.Empty;
+    public string? Cuisine { get; set; }
 
-    [Column("lat")]
-    public double? Lat { get; set; }
+    [Column("confidence")]
+    public string? Confidence { get; set; }
 
-    [Column("lon")]
-    public double? Lon { get; set; }
+    [Column("operating_status")]
+    public string? OperatingStatus { get; set; }
 
-    [Column("location")]
-    [JsonIgnore]
-    public Point? Location { get; set; }
+    [Column("address")]
+    public string? Address { get; set; }
 
-    [Column("tags", TypeName = "jsonb")]
-    public Dictionary<string, string>? Tags { get; set; } = new();
+    [Column("locality")]
+    public string? Locality { get; set; }
+
+    [Column("postcode")]
+    public string? Postcode { get; set; }
+
+    [Column("country")]
+    public string? Country { get; set; }
+
+    [Column("phones")]
+    public string? Phones { get; set; }
+
+    [Column("websites")]
+    public string? Websites { get; set; }
+
+    [Column("socials")]
+    public string? Socials { get; set; }
+
+    [Column("emails")]
+    public string? Emails { get; set; }
+
+    [Column("taxonomy_hierarchy")]
+    public string? TaxonomyHierarchy { get; set; }
+
+    [Column("brand")]
+    public string? Brand { get; set; }
+
+    [Column("sources")]
+    public string? Sources { get; set; }
+
+    [Column("latitude")]
+    public decimal? Latitude { get; set; }
+
+    [Column("longitude")]
+    public decimal? Longitude { get; set; }
 }
